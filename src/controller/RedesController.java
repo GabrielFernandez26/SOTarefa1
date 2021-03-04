@@ -85,7 +85,7 @@ public class RedesController {
 				if (vet[i].equals("inet")) {
 					result += vet[i + 1] + " \n";
 				}
-				if (vet[i + 1].contains("collisions")) {
+				if (vet[i].contains("collisions")) {
 					result += vet[i + 1].substring(1) + " ";
 				}
 			}
@@ -105,7 +105,7 @@ public class RedesController {
 			result += vet[pos - 1];
 			return result;
 		} else {
-			String command = "PING -4 -c 10 www.google.com.br";
+			String command = "ping -4 -c 10 www.google.com.br";
 			String ping = callProcess(command);
 			String vet[] = ping.split(" ");
 			String result = "";
@@ -113,6 +113,8 @@ public class RedesController {
 			for (int i = 0; i < vet.length; i++) {
 				if (vet[i].contains("rtt")) {
 					result += vet[i + 3];
+					String aux[] = result.split("/");
+					result = aux[1]+ " ms";
 				}
 			}
 
