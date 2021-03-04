@@ -43,31 +43,36 @@ public class RedesController {
 	public String ip(String os) {
 		if (os.equals("Windows 10")) {
 			String command = "ipconfig";
-			String ip = callProcess(command);
-			String vet[] = ip.split(" ");
-			
-			String result="";
-			for (int i = 0; i < vet.length; i++) {
-				if(vet[i].equals("Adaptador") || vet[i].equals("WindowsAdaptador")) {
-					result+="Adaptador ";
-					for (int j = i+1; j < vet.length; j++) {
-						if(!vet[j].contains(":")) {
-							result+=vet[j]+" ";
-						}else {
-							result+=vet[j].replace(":", "\n");
-							break;
-						}
-					}
-				}else if(vet[i].equals("IPv4.")) {
-					for (int j = i+1; j < vet.length; j++) {
-						if(vet[j].length()>1) {
-							result+= "IPv4: "+vet[j]+"\n\n";
-							break;
-						}
-					}
-				}
-			}
-			return result;
+            String ip = callProcess(command);
+            String vet[] = ip.split(" ");
+
+            String result="";
+            for (int i = 0; i < vet.length; i++) {
+                if(vet[i].equals("Adaptador") || vet[i].equals("WindowsAdaptador")) {
+//                    result+="Adaptador ";
+                    for (int j = i+1; j < vet.length; j++) {
+                        if(vet[j].equals("IPv4.")) {
+                            for (int j2 = i+1; j2 < vet.length; j2++) {
+                                if(!vet[j2].contains(":")) {
+                                    result+=vet[j2]+" ";
+                                }else {
+                                    result+=vet[j2].replace(":", "\n");
+                                    break;
+                                }
+                            }
+                        }else if(vet[j].equals("Adaptador")) break;
+                    }
+                }else if(vet[i].equals("IPv4.")) {
+                    for (int j = i+1; j < vet.length; j++) {
+                        if(vet[j].length()>1) {
+                            result+= "IPv4: "+vet[j]+"\n\n";
+                            break;
+                        }
+                    }
+                }
+            }
+            return result;
+
 
 
 		} else {
